@@ -1,49 +1,33 @@
 <?php
 if(!defined('BASEPATH'))
-exit('You dont have permission on this url');
+exit('You dont have permission on this site');
 class Logincontroladmin extends CI_Controller{
-    function __construct(){
-        parent::__construct();
-		$this->load->library('session');
-        $this->load->library('admin');
-    }
     public function validasiAdmin(){
-        //$username = $this->isNullPost('username',"Username harus diisi");
-        //$password = $this->isNullPost('password',"Password wajib diisi");
-        $username = 'ADMIN-DS-FSM';
-        $password = 'adminDSfsm453';
-        $this->load->model('ds_admin');
-        $rest = $this->ds_admin->getAccount($username,$password);
-        if(count($rest) <= 0){
-            exit("0Account cannot be found");
-        }
-        if($username != $rest['a_username']){
-            exit("0Username not match, case sensitive");
-        }
-        if($password != $rest['a_password']){
-            exit("0Password not match, case sensitive");
-        }
-        $this->session->set_userdata('status',$rest['a_cat']);
-        $this->session->set_userdata('username',$rest['a_username']);
-        $this->session->set_userdata('encode',$rest['a_username']."isA".$rest['a_cat']);
-        if(!$this->admin->isAdminLogin()){
-            $this->session->unset_userdata('status');
-            $this->session->unset_userdata('username');
-            $this->session->unset_userdata('encode');
-            exit('0Failed to authenticate');
-        }
-        exit("1Success login, please wait");
+        $this->load->library('session');
+        if($this->session->has_userdata('login-admin'))
+            exit("1Valid");
+        $username;
+        $password;
+        //exit("0".$this->input->post('username')." ".$this->input->post('password'));
+        if($this->input->post('username') == null)
+            exit('0username cannot be blank');
+        if($this->input->post('password') == null)
+            exit('0password cannot be blank');
+        $username = htmlentities(htmlspecialchars($this->input->post('username')));
+        $password = htmlentities(htmlspecialchars($this->input->post('password')));
+        $this->load->model('admin');
+        if($username != $this->admin->getUsername())
+            exit('0Username cannot be found');
+        if($password != $this->admin->getPassword())
+            exit('0Password did not match'.$this->admin->getPassword());
+        $this->session->set_userdata('login-admin',true);
+        exit('1Valid');
     }
     public function logout(){
-        $this->session->unset_userdata('status');
-        $this->session->unset_userdata('username');
-        $this->session->unset_userdata('encode');
-    }
-    /*
-    */
-    protected function isNullPost($a,$message){
-        if($this->input->post($a) === null)
-            exit("0".$message);
-        return htmlspecialchars($this->input->post($a));
+        $this->load->library('session');
+        if(!$this->session->has_userdata('login-admin'))
+            exit("0Failed");
+        $this->session->unset_userdata('login-admin');
+        exit("1succes");
     }
 }

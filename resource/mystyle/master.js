@@ -1,0 +1,10 @@
+$(document).ready(function(){
+	if($("#layout_first").length>0)
+		$("#layout_first").height($(window).height());
+	$(".up-content").height($("#layout_first").height()*6/10);
+	$(".down-content").height($("#layout_first").height()*4/10);	
+	$(window).resize(function(){
+	    $(".up-content").height($("#layout_first").height()*6/10);
+	    $(".down-content").height($("#layout_first").height()*4/10);
+	});
+});
