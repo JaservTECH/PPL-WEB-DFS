@@ -3,11 +3,29 @@
         <span class="icon-plus pointer" id="add-acara" style="font-size : 20px; line-height : 40px;float : right ; margin-right : 10px;"></span>
         <span class="icon-edit pointer" id="edit-acara" style="font-size : 20px; line-height : 40px;float : right ; margin-right : 10px;"></span>
         <div id="add-acara-message" style="display: none; position : absolute; margin-top : 40px; z-index : 3000; color : #666; background-color : rgba(250,250,250,0.7); text-align : center; width : 100%;">
-            <input type="text" placeholder="Tanggal" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
-            <input type="text" placeholder="jam" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
-            <input type="text" placeholder="Nama Acara" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
-            <input type="text" placeholder="Penanggungjawab" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
-            <input type="button" value="Masukan" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+            <input id="tanggal" type="text" placeholder="Tanggal (2016-04-23)" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+            <input id="jam" type="text" placeholder="jam (12:30:00)" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+            <input id="nama_acara" type="text" placeholder="Nama Acara (Wisuda ke-89)" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+            <input id="penyelenggara" type="text" placeholder="Penanggungjawab (Jafar abdurrahman albasyir)" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+            <input type="button" id="submit-acara" value="Masukan" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+        </div>
+        <div id="edit-acara-control"  style="max-height : 120px;display: none; position : absolute; margin-top : 40px; z-index : 3000; color : #666; background-color : rgba(250,250,250,0.95); text-align : center; width : 100%;">
+            <div id="template-edit-acara" style="overflow-y:auto;overflow-x:hidden; background-color : rgba(250,250,250,0.95); width : 100%; ">
+                <table class="table table-hover"> 
+                    <thead> 
+                        <tr> 
+                            <th>Tanggal</th> 
+                            <th>Jam</th> 
+                            <th>Nama Acara</th> 
+                            <th>Penyelenggara</th> 
+                            <th>Kontrol</th>
+                        </tr> 
+                    </thead> 
+                    <tbody id="content-edit-table-acara" > 
+                        
+                    </tbody> 
+                </table>
+            </div>
         </div>
     </div>
     <div id="acara-layout" style="width:100%; height : 100%;">

@@ -58,16 +58,28 @@ class Dataacara extends CI_Model {
             return false;
         switch ($this->category) {
             case 'add':
-                if($this->getSetNewAcara())
-                    resetValue();
+                if($this->getSetNewAcara()){
+                    $this->resetValue();
+                    return true;
+                }else{
+                    return false;
+                }
                 break;
             case "update" :
-                if($this->getSetUpdate())
-                    resetValue();
+                if($this->getSetUpdate()){
+                    $this->resetValue();
+                    return true;
+                }else{
+                    return false;
+                }
                 break;
             case "drop" :
-                if($this->getDropThisGuys())
-                    resetValue();
+                if($this->getDropThisGuys()){
+                    $this->resetValue();
+                    return true;
+                }else{
+                    return false;
+                }
                 break;
             case 'read' :
                 $this->getAllData();

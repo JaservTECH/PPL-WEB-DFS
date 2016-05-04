@@ -11,6 +11,8 @@ function refreshTableAcara() {
 $(document).ready(function(){
     startTableAcara();
 });
+var editAcara = 0;
+var addAcara = 0;
 function startTableAcara(){
 	j('#setAjax').setAjax({
         methode : "POST",
@@ -23,10 +25,59 @@ function startTableAcara(){
 				refreshTableAcara();
 				setTimeout(function(){
 					$("#edit-acara").click(function(){
-						
+						if(editAcara == 0){
+							editAcara = 1;
+							refreshTablePreviewAcara();
+						}else{
+							editAcara = 0;
+						}
+						$('#add-acara-message').slideUp('slow');
+						$('#edit-acara-control').slideToggle('slow');
 					});
 					$('#add-acara').click(function(){
+						$('#edit-acara-control').slideUp('slow');
 						$('#add-acara-message').slideToggle('slow');
+						
+					});
+					$('#submit-acara').click(function(){
+						//filter
+						$(this).attr("disabled","true");
+						LoadingBar.openBar("Sending data to server ...");
+						j('#setAjax').setAjax({
+							methode : "POST",
+							url : base_url+"Dataacaracontrol/menambahDataAcara",
+							bool : true,
+							content : 
+							"tanggal="+$('#tanggal').val()+"&"+
+							"jam="+$('#jam').val()+"&"+
+							"namaacara="+$('#nama_acara').val()+"&"+
+							"penyelenggara="+$('#penyelenggara').val(),
+							sucOk : function(a){
+								LoadingBar.setMessageBar("Processing response");
+								if(a[0] == "1"){
+									$('#submit-acara').removeAttr("disabled");
+									$('#tanggal').val("");
+									$('#jam').val("");
+									$('#nama_acara').val("");
+									$('#penyelenggara').val("");
+									$('#add-acara-message').slideToggle('slow');
+									LoadingBar.setMessageBar(a.substr(1,a.length-1)+" ...");
+									startTableAcara();
+									setTimeout(function(){
+										LoadingBar.closeBar();
+									},2000);
+								}else{
+									$('#submit-acara').removeAttr("disabled");
+									LoadingBar.setMessageBar(a.substr(1,a.length-1)+" ...");
+									setTimeout(function(){
+										LoadingBar.closeBar();
+									},2000);
+								}
+							},
+							sucEr : function(a,b){
+								template(a,b,"Process new Event ...");
+							}
+						});
 					});
 				},1000);
 			}else{
@@ -37,6 +88,33 @@ function startTableAcara(){
             template(a,b,"Rfresh Acara ...");
         }
     });
+}
+function refreshTablePreviewAcara(){
+	LoadingBar.openBar('sending data to server ...');
+	j('#setAjax').setAjax({
+		methode : "POST",
+		url : base_url+"Formdataacara/tampilPreviewDataAcara",
+		bool : true,
+		content : "CODE=JASERVTECH",
+		sucOk : function(a){
+			LoadingBar.setMessageBar('Processing message ...');
+			if(a[0] == '1'){
+				LoadingBar.setMessageBar("prepare table ...");
+				$('#template-edit-acara').height($(".up-content").height()-45);
+				$('#content-edit-table-acara').html(a.substr(1,a.length-1));
+				
+			}else{
+				LoadingBar.setMessageBar(a.substr(1,a.length-1)+" ...");
+				
+			}
+			setTimeout(function(){
+				LoadingBar.closeBar();
+			},2000);
+		},
+		sucEr : function(a,b){
+			template(a,b,"Process Data Acara Preview ...")
+		}
+	});
 }
 var pauseTableAcara = true;
 var pauseJamAcara = true;

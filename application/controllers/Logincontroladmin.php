@@ -2,8 +2,12 @@
 if(!defined('BASEPATH'))
 exit('You dont have permission on this site');
 class Logincontroladmin extends CI_Controller{
-    public function validasiAdmin(){
+    public function __CONSTRUCT(){
+        parent::__CONSTRUCT();
         $this->load->library('session');
+        
+    }
+    public function validasiAdmin(){
         if($this->session->has_userdata('login-admin'))
             exit("1Valid");
         $username;
@@ -24,7 +28,6 @@ class Logincontroladmin extends CI_Controller{
         exit('1Valid');
     }
     public function logout(){
-        $this->load->library('session');
         if(!$this->session->has_userdata('login-admin'))
             exit("0Failed");
         $this->session->unset_userdata('login-admin');
