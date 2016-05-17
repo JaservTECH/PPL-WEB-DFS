@@ -83,7 +83,38 @@ class Dataacaracontrol extends CI_Controller{
         if(nice_date($jam,"h:i:s") == 'Invalid Date')
             exit("0jam format hour:minute:second");
         $tanggal = nice_date($tanggal,"Y-m-d");
-        $jam = nice_date($jam,"h:i:s");
+        if(intval(nice_date($tanggal,"Y")) < intval(date("Y"))){
+            exit("0start date minimum is now ");
+        }else{
+            if(intval(nice_date($tanggal,"Y")) == intval(date("Y"))){
+                if(intval(nice_date($tanggal,"m")) < intval(date("m"))){
+                    exit("0start date minimum is now ");
+                }else{
+                    if(intval(nice_date($tanggal,"m")) == intval(date("m"))){
+                        if(intval(nice_date($tanggal,"d")) < intval(date("d"))){
+                            exit("0start date minimum is now ");
+                        }
+                    }
+                }
+            }
+        }
+        //exit("0".nice_date($jam,"H")." ".date("Y-m-d h:i:s"));
+        if(intval(nice_date($jam,"H")) < intval(date("H"))){
+            exit("0start time minimum is now ");
+        }else{
+            if(intval(nice_date($jam,"H")) == intval(date("H"))){
+                if(intval(nice_date($jam,"i")) < intval(date("i"))){
+                    exit("0start time minimum is now ");
+                }else{
+                    if(intval(nice_date($jam,"i")) == intval(date("i"))){
+                        if(intval(nice_date($jam,"s")) < intval(date("s"))){
+                            exit("0start time minimum is now ");
+                        }
+                    }
+                }
+            }
+        }
+        $jam = nice_date($jam,"H:i:s");
         $nama = htmlspecialchars(htmlentities($nama));
         $penyelenggara = htmlspecialchars(htmlentities($penyelenggara));
         $this->load->model('dataacara');
@@ -101,12 +132,58 @@ class Dataacaracontrol extends CI_Controller{
     public function menghapusDataAcara(){
         if(!$this->session->has_userdata('login-admin'))
             exit("0anda melakukan debugging terhadap program");
+        $temp = intval($this->isNullPost('id'));
+        //$temp = 1;
+        if($temp <= 0)
+            exit("0you are debugging");
+        
+        $this->load->model('dataacara');
+        $this->dataacara->setId($temp);
+        $this->dataacara->setActiveFunction('drop');
+        if($this->dataacara->getProceedActive()){
+            exit("1valid");
+        }else {
+            exit("0failed to input data");
+        }
+        
         
     }
     public function mengubahDataAcara(){
         if(!$this->session->has_userdata('login-admin'))
             exit("0anda melakukan debugging terhadap program");
-        
+        $tanggal = $this->isNullPost('tanggal');
+        $jam = $this->isNullPost('jam');
+        $nama = $this->isNullPost('namaacara');
+        $penyelenggara = $this->isNullPost('penyelenggara');
+        //exit("0".$tanggal." ".$jam." ".$nama." ".$penyelenggara);
+        /*
+        $tanggal = "2016-05-03";
+        $jam = "12:30:45";
+        $nama = "Reyhan";
+        $penyelenggara = "Reyha";
+        */
+        $this->load->helper('date');
+        if(nice_date($tanggal,"Y-m-d") == 'Invalid Date')
+            exit("0tanggal format year-month-day");
+        if(nice_date($jam,"h:i:s") == 'Invalid Date')
+            exit("0jam format hour:minute:second");
+        $id = intval($this->isNullPost('id'));
+        $tanggal = nice_date($tanggal,"Y-m-d");
+        $jam = nice_date($jam,"h:i:s");
+        $nama = htmlspecialchars(htmlentities($nama));
+        $penyelenggara = htmlspecialchars(htmlentities($penyelenggara));
+        $this->load->model('dataacara');
+        $this->dataacara->setId($id);
+        $this->dataacara->setTanggal($tanggal);
+        $this->dataacara->setJam($jam);
+        $this->dataacara->setNamaAcara($nama);
+        $this->dataacara->setPenyelenggara($penyelenggara);
+        $this->dataacara->setActiveFunction('update');
+        if($this->dataacara->getProceedActive()){
+            exit("1valid");
+        }else {
+            exit("0failed to input data");
+        }
     }
     protected function isNullPost($a){
         if($this->input->post($a) == null){

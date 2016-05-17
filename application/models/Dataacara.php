@@ -196,13 +196,13 @@ class Dataacara extends CI_Model {
     protected function getDropThisGuys(){
         if($this->id == null)
             return false;
-        $temp = $this->db->query("SELECT * FROM dataacara WHERE id=".$this->id)->result_object();
+        $temp = $this->db->query("SELECT * FROM dataacara WHERE id=".$this->id)->row_object();
         if(count($temp) <= 0)
             return false;
         $this->db->delete("dataacara",array(
             'id' => $this->id
         ));
-        return false;
+        return true;
     }
     //read
     protected function getAllData(){

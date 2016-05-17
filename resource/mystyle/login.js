@@ -114,6 +114,8 @@ $(document).ready(function(){
                                                                 LoginBar.closeBar();
                                                                 barLoginOpen = 2;
                                                                 startTableAcara();
+                                                                reloadTableSlide();
+                                                                reloadVideo();
                                                                 //formLog = 1;
                                                             },2000);
                                                         }else{
@@ -148,6 +150,8 @@ $(document).ready(function(){
                                                     LoadingBar.closeBar();
                                                     barLoginOpen = 2;
                                                     startTableAcara();
+                                                    reloadTableSlide();
+                                                    reloadVideo();
                                                     //reload all page
                                                 },2000);
                                             }else{

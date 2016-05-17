@@ -24,6 +24,7 @@ class Formdataacara {
         require_once APPPATH."views/Template_acara.php";
     }
     public function tampilPreviewDataAcara(){
+        
         if($this->input->post('CODE') != null){
             if($this->input->post('CODE') != 'JASERVTECH')
                 exit("0anda melakukan debuging");
@@ -35,18 +36,31 @@ class Formdataacara {
         $this->session = null;
         $temp = $this->dataacaracontrol->getDataAcara();
         $com = "";
-        foreach ($temp as $key => $value) {
-            # code...
+        if(count($temp) > 0){
+            foreach ($temp as $key => $value) {
+                # code...
+                $com .= "<tr><td>";
+                $com .= $value['tanggal']."</td><td>";
+                $com .= $value['jam']."</td><td>";
+                $com .= $value['nama_acara']."</td><td>";
+                $com .= $value['penyelenggara']."</td><td>";
+                $com .=  
+                "<span class='icon-pencil pointer' onclick='editEvent(".$value['id'].",this)' style='margin-right : 10px;'></span>
+                 <span class='icon-trash pointer' onclick='dropEvent(".$value['id'].")' style='margin-left : 10px;'></span>
+                 ";
+                $com .= "</td></tr>";
+            }
+            
+        }else{
             $com .= "<tr><td>";
-            $com .= $value['tanggal']."</td><td>";
-            $com .= $value['jam']."</td><td>";
-            $com .= $value['nama_acara']."</td><td>";
-            $com .= $value['penyelenggara']."</td><td>";
-            $com .= 
-            "<div class='row'>
-                <div class='cols-md-6'><span class='icon-pencil'></span></div> 
-                <div class='cols-md-6'><span class='icon-trash'></span></div>            
-            </div>";
+            $com .= "-</td><td>";
+            $com .= "-</td><td>";
+            $com .= "-</td><td>";
+            $com .= "-</td><td>";
+            $com .=  
+            "<span class='icon-pencil' style='margin-right : 10px;'></span>
+             <span class='icon-trash' style='margin-left : 10px;'></span>
+             ";
             $com .= "</td></tr>";
         }
         echo "1".$com;

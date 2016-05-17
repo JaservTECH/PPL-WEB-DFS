@@ -79,17 +79,32 @@
                 		a.sucEr(varAjax.readyState,varAjax.status);
                 	}
                 }
-            }
-            if((a.methode == "POST") || (a.methode == "post")){
-                varAjax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                if(a.content){
-                    varAjax.send(a.content);   
-                }else{
-                    varAjax.send("");
-                }
-            }else{
-                varAjax.send();
-            }
+            }			
+				if((a.methode == "POST") || (a.methode == "post")){
+					varAjax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					if(a.content){
+						try{
+						varAjax.send(a.content);   	
+						}catch(e){
+							alert(e);
+						}
+						
+					}else{
+						try{
+						varAjax.send("");	
+						}catch(e){
+							alert(e);
+						}
+						
+					}
+				}else{
+					try{
+							varAjax.send();
+						}catch(e){
+							alert(e);
+						}
+					
+				}
         };
         /*Style Executor*/
         //getStyleValue a = "height" or "weight" or "display"

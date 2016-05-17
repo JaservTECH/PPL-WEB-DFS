@@ -8,8 +8,9 @@
             <input id="nama_acara" type="text" placeholder="Nama Acara (Wisuda ke-89)" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
             <input id="penyelenggara" type="text" placeholder="Penanggungjawab (Jafar abdurrahman albasyir)" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
             <input type="button" id="submit-acara" value="Masukan" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
+            <input type="button" id="submit-edit-acara" value="Masukan" style="background-color : #666; width : 95%; margin-left : 2.5%; margin-top : 10px;">
         </div>
-        <div id="edit-acara-control"  style="max-height : 120px;display: none; position : absolute; margin-top : 40px; z-index : 3000; color : #666; background-color : rgba(250,250,250,0.95); text-align : center; width : 100%;">
+        <div id="edit-acara-control"  style="max-height : 120px;display: none; position : absolute; margin-top : 40px; z-index : 1000; color : #666; background-color : rgba(250,250,250,0.95); text-align : center; width : 100%;">
             <div id="template-edit-acara" style="overflow-y:auto;overflow-x:hidden; background-color : rgba(250,250,250,0.95); width : 100%; ">
                 <table class="table table-hover"> 
                     <thead> 
@@ -44,7 +45,8 @@
                 </thead> 
                 <tbody id="content-table-acara" style="overflow-y:auto;"> 
                     <?php
-                     if(array_key_exists(0,$temp)){
+                    if(is_array($temp)){
+                        if(array_key_exists(0,$temp)){
                             foreach($temp as $value){
                                 echo "<tr><td>".$value['tanggal']."</td>
                                 <td>".$value['jam']."</td>
@@ -52,8 +54,15 @@
                                 <td>".$value['penyelenggara']."</td></tr>";
                             }
                         }else{
-                            echo $temp['id']." ".$temp['tanggal']."<br>";
+                            echo "<tr><td>".$value['tanggal']."</td>
+                                <td>".$value['jam']."</td>
+                                <td>".$value['nama_acara']."</td>
+                                <td>".$value['penyelenggara']."</td></tr>";
                         }
+                    }else{
+                        echo "<tr><td>-</td><td>-</td><td>-</td><td>-</td></tr>";
+                    }
+                     
                     ?>
                 </tbody> 
             </table>
